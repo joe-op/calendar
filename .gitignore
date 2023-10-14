@@ -1,0 +1,13 @@
+.psa-stash
+.psci_modules
+.spago/
+node_modules
+dist
+output
+images/sandbox
+src/main/assets/styles/precompiled/*.css
+*.*~
+*.zip
+\#*\#
+.\#*
+curl.rb

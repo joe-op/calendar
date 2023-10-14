@@ -1,0 +1,32 @@
+{
+  "name": "jpo-midwest-calendar",
+  "version": "0.1.0",
+  "description": "View-only calendar",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "build": "node_modules/.bin/spago build --purs-args=\"--strict --stash --censor-lib\"",
+    "build:dev": "node_modules/.bin/spago build --purs-args=\"--stash --censor-lib\" -w",
+    "esbuild": "esbuild --bundle index.js",
+    "serve": "npm run esbuild -- --outdir=dist",
+    "test": "spago test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/joe-op/calendar.git"
+  },
+  "author": "Joe Opseth",
+  "license": "MIT-0",
+  "bugs": {
+    "url": "https://github.com/joe-op/calendar/issues"
+  },
+  "homepage": "https://github.com/joe-op/calendar#readme",
+  "devDependencies": {
+    "esbuild": "^0.19.4",
+    "purescript": "^0.15.12",
+    "purescript-psa": "^0.8.2",
+    "spago": "^0.21.0"
+  }
+}
