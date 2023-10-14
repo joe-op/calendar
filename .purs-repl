@@ -1,1 +1,8 @@
 import Prelude
+
+import Data.Foldable (all, any)
+import Data.Foldable as Foldable
+import Data.Maybe (Maybe(..), fromMaybe, isJust, isNothing, maybe)
+import Data.Maybe as Maybe
+import Data.Newtype (class Newtype, unwrap)
+import Data.Newtype as Newtype

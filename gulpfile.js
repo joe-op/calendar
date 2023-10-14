@@ -8,7 +8,7 @@ const imageSrcDir = 'src/main/assets/images';
 
 const paths = {
   css: {
-    src: [ 'src/main/assets/styles/**/*.less', 'src/main/assets/styles/**/*.css' ],
+    src: [ 'src/main/assets/less/**/*.less' ],
     dest: 'dist/css'
   },
   html: {
@@ -55,5 +55,6 @@ function clean() {
 }
 
 exports.clean = clean
+exports.css = css
 exports.html = html
 exports.default = watch
