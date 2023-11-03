@@ -103,3 +103,19 @@ let upstream =
         sha256:779d9425686b00140c0bb94b9f5b1eab052643d36e30b900c7fe7d45bab315d5
 
 in  upstream
+  with dev-reload =
+    { dependencies =
+      [ "aff"
+      , "console"
+      , "const"
+      , "effect"
+      , "halogen"
+      , "maybe"
+      , "prelude"
+      , "strings"
+      ]
+    , repo =
+        "https://github.com/joe-op/purescript-dev-reload.git"
+    , version =
+        "develop"
+    }

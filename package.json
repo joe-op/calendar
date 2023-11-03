@@ -25,11 +25,12 @@
   "homepage": "https://github.com/joe-op/calendar#readme",
   "devDependencies": {
     "delete": "^1.1.0",
-    "esbuild": "^0.19.4",
+    "esbuild": "^0.19.5",
     "gulp": "^4.0.2",
     "gulp-less": "^5.0.0",
     "purescript": "^0.15.12",
     "purescript-psa": "^0.8.2",
+    "purs-tidy": "^0.10.0",
     "spago": "^0.21.0"
   }
 }
