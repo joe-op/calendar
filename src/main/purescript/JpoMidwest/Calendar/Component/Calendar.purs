@@ -15,38 +15,31 @@ import JpoMidwest.Calendar.Data.Month (Month(..))
 import JpoMidwest.Calendar.Types (Year(..))
 import Type.Proxy (Proxy(..))
 
-type Input
-  = Unit
+type Input = Unit
 
-type Output
-  = Void
+type Output = Void
 
 type Query :: forall k. k -> Type
-type Query
-  = Const Void
+type Query = Const Void
 
-type Slot
-  = H.Slot Query Output
+type Slot = H.Slot Query Output
 
-type ChildSlots
-  = ( month :: Month.Slot Unit
-    )
+type ChildSlots =
+  ( month :: Month.Slot Unit
+  )
 
-type State
-  = { selectedMonth ::
-        { month :: Month
-        , year :: Year
-        }
-    }
+type State =
+  { selectedMonth ::
+      { month :: Month
+      , year :: Year
+      }
+  }
 
-data Action
-  = Init
+data Action = Init
 
-type HalogenM m
-  = H.HalogenM State Action ChildSlots Output m
+type HalogenM m = H.HalogenM State Action ChildSlots Output m
 
-type HTML m
-  = H.ComponentHTML Action ChildSlots m
+type HTML m = H.ComponentHTML Action ChildSlots m
 
 _month = Proxy :: Proxy "month"
 
@@ -67,8 +60,8 @@ component =
   where
   initialState _ =
     { selectedMonth:
-        { month: January
-        , year: Year 1970
+        { month: May
+        , year: Year 2024
         }
     }
 

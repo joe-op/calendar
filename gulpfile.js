@@ -3,6 +3,7 @@
 const del = require('delete');
 const gulp = require('gulp');
 const less = require('gulp-less');
+const path = require('path');
 
 const imageSrcDir = 'src/main/assets/images';
 
@@ -26,7 +27,9 @@ const paths = {
 
 function css() {
   return gulp.src(paths.css.src)
-    .pipe(less())
+    .pipe(less({
+      paths: [ path.join(__dirname, 'less', 'includes') ]
+    }))
     .pipe(gulp.dest(paths.css.dest));
 }
 

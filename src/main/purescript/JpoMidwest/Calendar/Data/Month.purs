@@ -1,6 +1,7 @@
 module JpoMidwest.Calendar.Data.Month
   ( Month(..)
   , numberOfDays
+  , toCardinalInt
   , toString
   ) where
 
@@ -43,6 +44,21 @@ numberOfDays year = case _ of
   -- TODO: date utils module (?)
   isLeapYear :: Year -> Boolean
   isLeapYear = unwrap >>> flip mod 4 >>> eq 0
+
+toCardinalInt :: Month -> Int
+toCardinalInt = case _ of
+  January -> 1
+  February -> 2
+  March -> 3
+  April -> 4
+  May -> 5
+  June -> 6
+  July -> 7
+  August -> 8
+  September -> 9
+  October -> 10
+  November -> 11
+  December -> 12
 
 --| Display Month in long form
 toString :: Month -> String

@@ -3,6 +3,7 @@ module JpoMidwest.Calendar.Component.Calendar.Day
   , Query
   , Slot
   , component
+  , emptyDay
   ) where
 
 import Prelude
@@ -14,25 +15,20 @@ import Halogen.HTML as HH
 import Halogen.HTML.Properties as HP
 import JpoMidwest.Calendar.Types (Day)
 
-type Slot
-  = H.Slot Query Output
+type Slot = H.Slot Query Output
 
-type Input
-  = Day
+type Input = Day
 
-type Output
-  = Void
+type Output = Void
 
 type Query :: forall k. k -> Type
-type Query
-  = Const Void
+type Query = Const Void
 
-type State
-  = { input :: Input
-    }
+type State =
+  { input :: Input
+  }
 
-type Action
-  = Void
+type Action = Void
 
 component ::
   forall m.
@@ -62,3 +58,10 @@ component =
           [ HH.text $ show $ unwrap state.input
           ]
       ]
+
+emptyDay :: forall action props. HH.HTML props action
+emptyDay =
+  HH.div
+    [ HP.classes [ HH.ClassName "day-container" ]
+    ]
+    []

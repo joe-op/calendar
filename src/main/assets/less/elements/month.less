@@ -1,30 +1,52 @@
+.weekmixin() {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.weekdaymixin() {
+  box-sizing: border-box;
+  border: 1px solid black;
+  flex: 0 0 auto;
+
+  height: 4rem;
+  width: 4rem;
+
+  // TODO: top & bottom borders
+  &:first-child {
+    border-left: 2px solid black;
+  }
+
+  &:last-child {
+    border-right: 2px solid black;
+ }
+}
+
 .month-container {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
 
   &__day {
-    box-sizing: border-box;
-    border: 1px solid black;
-    flex: 0 0 auto;
-
-    height: 3rem;
-    width: 3rem;
-
-    // TODO: top & bottom borders
-    &:first-child {
-      border-left: 2px solid black;
-    }
-
-    &:last-child {
-      border-right: 2px solid black;
-    }
+    .weekdaymixin();
   }
 
   &__week {
-    display: flex;
-    flex: 1 1 auto;
-    flex-direction: row;
-    flex-wrap: nowrap;
+    .weekmixin();
+  }
+
+  &__weekday-label {
+    .weekdaymixin();
+
+    height: 1rem;
+    font-size: 0.8rem;
+    color: darkred;
+    text-align: center;
+    font-style: italic;
+  }
+
+  &__weekday-labels {
+    .weekmixin();
   }
 }

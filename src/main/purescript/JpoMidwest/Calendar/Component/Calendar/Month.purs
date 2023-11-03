@@ -7,10 +7,10 @@ module JpoMidwest.Calendar.Component.Calendar.Month
 
 import Prelude
 import Data.Array as Array
+import Data.Array ((..))
 import Data.Const (Const)
-import Data.Maybe (Maybe(..))
+import Data.Maybe (Maybe(..), fromMaybe, maybe)
 import Data.Newtype (unwrap)
-import Data.Newtype as Newtype
 import Effect.Aff.Class (class MonadAff)
 import Halogen as H
 import Halogen.HTML as HH
@@ -18,42 +18,38 @@ import Halogen.HTML.Properties as HP
 import JpoMidwest.Calendar.Component.Calendar.Day as Day
 import JpoMidwest.Calendar.Data.Month (Month)
 import JpoMidwest.Calendar.Data.Month as Month
-import JpoMidwest.Calendar.Types (Day(..), Year)
+import JpoMidwest.Calendar.Data.WeekRow as Data.WeekRow
+import JpoMidwest.Calendar.Date as Date
+import JpoMidwest.Calendar.Types (Day(..), WeekRow, WeekRowDay(..), Year)
 import Type.Proxy (Proxy(..))
 
-type Slot
-  = H.Slot Query Output
+type Slot = H.Slot Query Output
 
-type Input
-  = { month :: Month
-    , year :: Year
-    }
+type Input =
+  { month :: Month
+  , year :: Year
+  }
 
 -- TODO: determine setup based on month and year
-type Output
-  = Void
+type Output = Void
 
 type Query :: forall k. k -> Type
-type Query
-  = Const Void
+type Query = Const Void
 
-type ChildSlots
-  = ( day :: Day.Slot Int
-    )
+type ChildSlots =
+  ( day :: Day.Slot Int
+  )
 
-type State
-  = { days :: Array (Array Day)
-    , input :: Input
-    }
+type State =
+  { input :: Input
+  , weekRows :: Array WeekRow
+  }
 
-data Action
-  = Receive Input
+data Action = Receive Input
 
-type HalogenM m
-  = H.HalogenM State Action ChildSlots Output m
+type HalogenM m = H.HalogenM State Action ChildSlots Output m
 
-type HTML m
-  = H.ComponentHTML Action ChildSlots m
+type HTML m = H.ComponentHTML Action ChildSlots m
 
 _day = Proxy :: Proxy "day"
 
@@ -75,11 +71,9 @@ component =
   where
   initialState :: Input -> State
   initialState input =
-    { days
-    , input
+    { input
+    , weekRows: setUpDays input.year input.month
     }
-    where
-    days = setUpDays input.year input.month
 
   render :: State -> HTML m
   render state =
@@ -95,24 +89,36 @@ component =
           -- TODO: CSS framework
           [ HP.classes [ HH.ClassName "month-container" ]
           ]
-          (map weekHtml state.days)
+          ( append
+              [ weekDayLabels ]
+              (map weekHtml state.weekRows)
+          )
       ]
     where
-    weekHtml :: Array Day -> HTML m
-    weekHtml days =
+    weekHtml :: WeekRow -> HTML m
+    weekHtml weekRow =
       HH.div
         -- TODO: CSS framework
         [ HP.classes [ HH.ClassName "month-container", HH.ClassName "month-container__week" ]
         ]
-        (map dayHtml days)
+        [ dayHtml weekRow.sunday
+        , dayHtml weekRow.monday
+        , dayHtml weekRow.tuesday
+        , dayHtml weekRow.wednesday
+        , dayHtml weekRow.thursday
+        , dayHtml weekRow.friday
+        , dayHtml weekRow.saturday
+        ]
 
-    dayHtml :: Day -> HTML m
+    dayHtml :: WeekRowDay -> HTML m
     dayHtml day =
       HH.div
         -- TODO: CSS framework
         [ HP.classes [ HH.ClassName "month-container", HH.ClassName "month-container__day" ]
         ]
-        [ HH.slot_ _day (unwrap day) Day.component day
+        [ case day of
+            DayOfWeek d -> HH.slot_ _day (unwrap d) Day.component d
+            EmptyDay -> Day.emptyDay
         ]
 
   -- TODO: day of week labels
@@ -120,28 +126,109 @@ component =
   handleAction = case _ of
     Receive input -> unlessM (eq input <$> H.gets _.input) (H.modify_ _ { input = input })
 
-  -- TODO: weekday labels
   -- TODO: offset for week
   -- TODO: change to Maybe Int and render an empty square for nothing
   -- TODO: pad last week
-  setUpDays :: Year -> Month -> Array (Array Day)
+  setUpDays :: Year -> Month -> Array WeekRow
   setUpDays year month =
     let
+      startingWeekDay = Date.monthStartsOnWeekDay year (Month.toCardinalInt month)
+
       numberOfDays = Month.numberOfDays year month
 
-      nextDay :: Day -> Array (Array Day) -> Array (Array Day)
-      nextDay day currentDays =
-        if (unwrap day) > numberOfDays then
-          currentDays
-        else
-          nextDay (Newtype.over Day ((+) 1) day) nextLevel
-        where
-        nextLevel = case Array.unsnoc currentDays of
-          Just { init: xs, last: x } ->
-            if Array.length x >= 7 then
-              xs <> [ x, [ day ] ]
+      weekRowFromArray :: Array WeekRowDay -> WeekRow
+      weekRowFromArray weekRowDays =
+        let
+          elemOrEmpty :: Int -> WeekRowDay
+          elemOrEmpty i = fromMaybe EmptyDay (Array.index weekRowDays i)
+        in
+          { sunday: elemOrEmpty 0
+          , monday: elemOrEmpty 1
+          , tuesday: elemOrEmpty 2
+          , wednesday: elemOrEmpty 3
+          , thursday: elemOrEmpty 4
+          , friday: elemOrEmpty 5
+          , saturday: elemOrEmpty 6
+          }
+
+      startingWeek :: WeekRow
+      startingWeek =
+        let
+          buildArr :: Array WeekRowDay -> Array WeekRowDay
+          buildArr arr =
+            if Array.length arr >= 7 then
+              arr
+            else if Array.length arr < startingWeekDay then
+              buildArr (Array.snoc arr EmptyDay)
             else
-              xs <> [ Array.snoc x day ]
-          Nothing -> [ [ day ] ]
+              let
+                startingDay = 1
+                endingDay = 7 - (Array.length arr)
+              in
+                append arr ((startingDay .. endingDay) <#> (Day >>> DayOfWeek))
+        in
+          weekRowFromArray (buildArr [])
+
+      nextWeek :: Int -> WeekRow
+      nextWeek highestDayAchieved =
+        let
+          wrd :: Int -> WeekRowDay
+          wrd i =
+            if i > numberOfDays then
+              EmptyDay
+            else
+              DayOfWeek (Day i)
+        in
+          { sunday: wrd $ highestDayAchieved + 1
+          , monday: wrd $ highestDayAchieved + 2
+          , tuesday: wrd $ highestDayAchieved + 3
+          , wednesday: wrd $ highestDayAchieved + 4
+          , thursday: wrd $ highestDayAchieved + 5
+          , friday: wrd $ highestDayAchieved + 6
+          , saturday: wrd $ highestDayAchieved + 7
+          }
+
+      buildWeeks :: Array WeekRow -> Array WeekRow
+      buildWeeks = case _ of
+        [] -> buildWeeks [ startingWeek ]
+        wkrs ->
+          if highestDayAchieved wkrs >= numberOfDays then
+            wkrs
+          else if Array.length wkrs >= 5 then
+            -- TODO: fix
+            wkrs
+          else
+            buildWeeks (Array.snoc wkrs (nextWeek $ highestDayAchieved wkrs))
+
+        where
+        highestDayAchieved :: Array WeekRow -> Int
+        highestDayAchieved wkrs =
+          maybe 0 Data.WeekRow.highestWeekRowDay (Array.last wkrs)
+
     in
-      nextDay (Day 1) [ [] ]
+      buildWeeks []
+
+  weekDayLabels :: HTML m
+  weekDayLabels =
+    HH.div
+      [ HP.classes [ HH.ClassName "month-container", HH.ClassName "month-container__weekday-labels" ]
+      ]
+      ( map
+          ( \d -> HH.div
+              [ HP.classes [ HH.ClassName "month-container", HH.ClassName "month-container__weekday-label" ]
+              ]
+              [ HH.text d
+              ]
+          )
+          weekDays
+      )
+
+  weekDays =
+    [ "Sunday"
+    , "Monday"
+    , "Tuesday"
+    , "Wednesday"
+    , "Thursday"
+    , "Friday"
+    , "Saturday"
+    ]
