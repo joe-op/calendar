@@ -1,10 +1,10 @@
-module JpoMidwest.Calendar.Main where
+module JoeOp.Calendar.Main where
 
 import Prelude
 import Effect (Effect)
 import Halogen.Aff as HA
 import Halogen.VDom.Driver (runUI)
-import JpoMidwest.Calendar.Component.App as App
+import JoeOp.Calendar.Component.App as App
 
 main :: Effect Unit
 main =

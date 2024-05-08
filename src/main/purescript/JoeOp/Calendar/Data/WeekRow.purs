@@ -1,9 +1,9 @@
-module JpoMidwest.Calendar.Data.WeekRow where
+module JoeOp.Calendar.Data.WeekRow where
 
 import Control.Alternative ((<|>))
 import Data.Maybe (Maybe(..), fromMaybe)
 import Data.Newtype (unwrap)
-import JpoMidwest.Calendar.Types (WeekRow, WeekRowDay(..))
+import JoeOp.Calendar.Types (WeekRow, WeekRowDay(..))
 
 weekRowDayInt :: WeekRowDay -> Maybe Int
 weekRowDayInt = case _ of

@@ -1,4 +1,4 @@
-module JpoMidwest.Calendar.Component.Calendar.Day
+module JoeOp.Calendar.Component.Calendar.Day
   ( Output
   , Query
   , Slot
@@ -13,7 +13,7 @@ import Effect.Aff.Class (class MonadAff)
 import Halogen as H
 import Halogen.HTML as HH
 import Halogen.HTML.Properties as HP
-import JpoMidwest.Calendar.Types (Day)
+import JoeOp.Calendar.Types (Day)
 
 type Slot = H.Slot Query Output
 

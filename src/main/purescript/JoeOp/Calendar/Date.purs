@@ -1,9 +1,9 @@
-module JpoMidwest.Calendar.Date
+module JoeOp.Calendar.Date
   ( monthStartsOnWeekDay
   ) where
 
 import Data.Newtype (unwrap)
-import JpoMidwest.Calendar.Types (Year)
+import JoeOp.Calendar.Types (Year)
 
 foreign import _monthStartsOnWeekDay :: Int -> Int -> Int
 

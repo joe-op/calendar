@@ -1,4 +1,4 @@
-module JpoMidwest.Calendar.Component.Calendar
+module JoeOp.Calendar.Component.Calendar
   ( Output
   , Query
   , Slot
@@ -10,9 +10,9 @@ import Data.Const (Const)
 import Effect.Aff.Class (class MonadAff)
 import Halogen as H
 import Halogen.HTML as HH
-import JpoMidwest.Calendar.Component.Calendar.Month as Month
-import JpoMidwest.Calendar.Data.Month (Month(..))
-import JpoMidwest.Calendar.Types (Year(..))
+import JoeOp.Calendar.Component.Calendar.Month as Month
+import JoeOp.Calendar.Data.Month (Month(..))
+import JoeOp.Calendar.Types (Year(..))
 import Type.Proxy (Proxy(..))
 
 type Input = Unit

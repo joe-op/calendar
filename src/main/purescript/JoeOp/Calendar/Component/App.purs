@@ -1,11 +1,11 @@
-module JpoMidwest.Calendar.Component.App where
+module JoeOp.Calendar.Component.App where
 
 import Prelude
 import Data.Const (Const)
 import Effect.Aff.Class (class MonadAff)
 import Halogen as H
 import Halogen.HTML as HH
-import JpoMidwest.Calendar.Component.Calendar as Calendar
+import JoeOp.Calendar.Component.Calendar as Calendar
 import Type.Proxy (Proxy(..))
 
 type Input = Unit

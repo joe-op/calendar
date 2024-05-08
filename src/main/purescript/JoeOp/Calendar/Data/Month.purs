@@ -1,4 +1,4 @@
-module JpoMidwest.Calendar.Data.Month
+module JoeOp.Calendar.Data.Month
   ( Month(..)
   , numberOfDays
   , toCardinalInt
@@ -7,7 +7,7 @@ module JpoMidwest.Calendar.Data.Month
 
 import Prelude
 import Data.Newtype (unwrap)
-import JpoMidwest.Calendar.Types (Year)
+import JoeOp.Calendar.Types (Year)
 
 data Month
   = January

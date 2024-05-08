@@ -1,4 +1,4 @@
-module JpoMidwest.Calendar.Component.Calendar.Month
+module JoeOp.Calendar.Component.Calendar.Month
   ( Output
   , Query
   , Slot
@@ -15,12 +15,12 @@ import Effect.Aff.Class (class MonadAff)
 import Halogen as H
 import Halogen.HTML as HH
 import Halogen.HTML.Properties as HP
-import JpoMidwest.Calendar.Component.Calendar.Day as Day
-import JpoMidwest.Calendar.Data.Month (Month)
-import JpoMidwest.Calendar.Data.Month as Month
-import JpoMidwest.Calendar.Data.WeekRow as Data.WeekRow
-import JpoMidwest.Calendar.Date as Date
-import JpoMidwest.Calendar.Types (Day(..), WeekRow, WeekRowDay(..), Year)
+import JoeOp.Calendar.Component.Calendar.Day as Day
+import JoeOp.Calendar.Data.Month (Month)
+import JoeOp.Calendar.Data.Month as Month
+import JoeOp.Calendar.Data.WeekRow as Data.WeekRow
+import JoeOp.Calendar.Date as Date
+import JoeOp.Calendar.Types (Day(..), WeekRow, WeekRowDay(..), Year)
 import Type.Proxy (Proxy(..))
 
 type Slot = H.Slot Query Output

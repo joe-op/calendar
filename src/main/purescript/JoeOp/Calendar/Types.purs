@@ -1,4 +1,4 @@
-module JpoMidwest.Calendar.Types where
+module JoeOp.Calendar.Types where
 
 import Prelude
 import Data.Newtype (class Newtype)
