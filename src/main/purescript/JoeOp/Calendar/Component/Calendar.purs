@@ -7,15 +7,15 @@ module JoeOp.Calendar.Component.Calendar
 
 import Prelude
 import Data.Const (Const)
+import Data.Tuple (Tuple(..))
 import Effect.Aff.Class (class MonadAff)
 import Halogen as H
 import Halogen.HTML as HH
 import JoeOp.Calendar.Component.Calendar.Month as Month
-import JoeOp.Calendar.Data.Month (Month(..))
-import JoeOp.Calendar.Types (Year(..))
+import JoeOp.Calendar.Types (Month, Year)
 import Type.Proxy (Proxy(..))
 
-type Input = Unit
+type Input = Tuple Year Month
 
 type Output = Void
 
@@ -58,11 +58,8 @@ component =
               }
     }
   where
-  initialState _ =
-    { selectedMonth:
-        { month: May
-        , year: Year 2024
-        }
+  initialState (Tuple year month) =
+    { selectedMonth: { year, month }
     }
 
   render :: State -> HTML m
@@ -78,5 +75,4 @@ component =
 
   handleAction :: Action -> HalogenM m Unit
   handleAction = case _ of
-    -- TODO: load current date
     Init -> pure unit

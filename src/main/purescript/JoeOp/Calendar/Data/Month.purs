@@ -1,29 +1,31 @@
 module JoeOp.Calendar.Data.Month
-  ( Month(..)
+  ( fromCardinalInt
   , numberOfDays
   , toCardinalInt
   , toString
   ) where
 
 import Prelude
+import Data.Maybe (Maybe(..))
 import Data.Newtype (unwrap)
-import JoeOp.Calendar.Types (Year)
+import JoeOp.Calendar.Types (Month(..), Year)
 
-data Month
-  = January
-  | February
-  | March
-  | April
-  | May
-  | June
-  | July
-  | August
-  | September
-  | October
-  | November
-  | December
-
-derive instance eqMonth :: Eq Month
+fromCardinalInt :: Int -> Maybe Month
+fromCardinalInt = case _ of
+  i
+    | i == 1 -> Just January
+    | i == 2 -> Just February
+    | i == 3 -> Just March
+    | i == 4 -> Just April
+    | i == 5 -> Just May
+    | i == 6 -> Just June
+    | i == 7 -> Just July
+    | i == 8 -> Just August
+    | i == 9 -> Just September
+    | i == 10 -> Just October
+    | i == 11 -> Just November
+    | i == 12 -> Just December
+    | otherwise -> Nothing
 
 numberOfDays :: Year -> Month -> Int
 numberOfDays year = case _ of

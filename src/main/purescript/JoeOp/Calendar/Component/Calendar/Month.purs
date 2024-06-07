@@ -16,11 +16,10 @@ import Halogen as H
 import Halogen.HTML as HH
 import Halogen.HTML.Properties as HP
 import JoeOp.Calendar.Component.Calendar.Day as Day
-import JoeOp.Calendar.Data.Month (Month)
 import JoeOp.Calendar.Data.Month as Month
 import JoeOp.Calendar.Data.WeekRow as Data.WeekRow
 import JoeOp.Calendar.Date as Date
-import JoeOp.Calendar.Types (Day(..), WeekRow, WeekRowDay(..), Year)
+import JoeOp.Calendar.Types (Day(..), Month, WeekRow, WeekRowDay(..), Year)
 import Type.Proxy (Proxy(..))
 
 type Slot = H.Slot Query Output

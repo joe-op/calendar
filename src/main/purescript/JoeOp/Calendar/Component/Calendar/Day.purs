@@ -22,6 +22,7 @@ type Input = Day
 type Output = Void
 
 type Query :: forall k. k -> Type
+
 type Query = Const Void
 
 type State =

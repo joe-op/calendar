@@ -48,9 +48,8 @@ function watchLess() {
 }
 
 function watch() {
-  html();
-  images();
-  watchLess();
+  return   gulp.parallel(html(),  images())
+    .then(watchLess());
 }
 
 function clean() {

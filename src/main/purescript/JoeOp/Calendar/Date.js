@@ -16,3 +16,10 @@ export const _monthStartsOnWeekDay = year => month => {
   // %7
   return luxonWeekday % 7;
 }
+
+export const _today = toUnwrappedDate => {
+  return () => {
+    const today = luxon.DateTime.local();
+    return toUnwrappedDate(today.year)(today.month)(today.day);
+  };
+};

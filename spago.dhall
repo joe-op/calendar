@@ -17,11 +17,13 @@ to generate this file without the comments in this block.
   , "console"
   , "const"
   , "control"
+  , "debug"
   , "effect"
   , "halogen"
   , "maybe"
   , "newtype"
   , "prelude"
+  , "tuples"
   ]
 , packages = ./packages.dhall
 , sources = [ "src/**/*.purs", "test/**/*.purs" ]

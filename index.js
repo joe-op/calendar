@@ -1,3 +1,3 @@
-import { main } from './output/JpoMidwest.Calendar.Main';
+import { main } from './output/JoeOp.Calendar.Main';
 
 main();
