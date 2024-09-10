@@ -11,7 +11,7 @@ import JoeOp.Calendar.Component.Calendar as Calendar
 import JoeOp.Calendar.Types (Date)
 import Type.Proxy (Proxy(..))
 
-type Input = Date
+type Input = Array Date
 
 type Output = Void
 
@@ -21,7 +21,7 @@ type Query = Const Void
 type Slot = H.Slot Query Output
 
 type ChildSlots =
-  ( calendar :: Calendar.Slot Unit
+  ( calendar :: Calendar.Slot String
   )
 
 _month = Proxy :: Proxy "month"
@@ -37,14 +37,17 @@ component =
     , eval: H.mkEval H.defaultEval
     }
   where
-  render date =
+  render dates =
     HH.div_
-      [ HH.slot_
-          _month
-          unit
-          Calendar.component
-          ( Tuple
-              (Tuple.Nested.get1 date)
-              (Tuple.Nested.get2 date)
+      ( dates <#>
+          ( \date ->
+              HH.slot_
+                _month
+                "1"
+                Calendar.component
+                ( Tuple
+                    (Tuple.Nested.get1 date)
+                    (Tuple.Nested.get2 date)
+                )
           )
-      ]
+      )
