@@ -12,6 +12,6 @@ main :: Effect Unit
 main =
   HA.runHalogenAff do
     body <- HA.awaitBody
-    today <- H.liftEffect Date.unsafeToday
+    -- today <- H.liftEffect Date.unsafeToday
     nextMonth <- H.liftEffect (Date.unsafeTodayPlusMonths 1)
-    runUI App.component [ today, nextMonth ] body
+    runUI App.component [ nextMonth ] body

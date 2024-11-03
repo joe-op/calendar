@@ -7,6 +7,7 @@ import Data.Tuple.Nested as Tuple.Nested
 import Effect.Aff.Class (class MonadAff)
 import Halogen as H
 import Halogen.HTML as HH
+import Halogen.HTML.Properties as HP
 import JoeOp.Calendar.Component.Calendar as Calendar
 import JoeOp.Calendar.Types (Date)
 import Type.Proxy (Proxy(..))
@@ -38,16 +39,19 @@ component =
     }
   where
   render dates =
-    HH.div_
+    HH.main_
       ( dates <#>
           ( \date ->
-              HH.slot_
-                _month
-                "1"
-                Calendar.component
-                ( Tuple
-                    (Tuple.Nested.get1 date)
-                    (Tuple.Nested.get2 date)
-                )
+              HH.div
+                [ HP.classes [ HH.ClassName "cal-month-section" ] ]
+                [ HH.slot_
+                    _month
+                    "1"
+                    Calendar.component
+                    ( Tuple
+                        (Tuple.Nested.get1 date)
+                        (Tuple.Nested.get2 date)
+                    )
+                ]
           )
       )

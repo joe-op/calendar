@@ -11,11 +11,13 @@ import JoeOp.Calendar.Types (Date, Day(..), Month(..), UnwrappedDate, Year(..))
 wrappedDate :: UnwrappedDate -> Date
 wrappedDate { year, month, day } = tuple3 (Year year) (fromMaybe January (Month.fromCardinalInt month)) (Day day)
 
+-- TODO: change this to "next month" etc.
+-- TODO: set to day 1
 unsafeTodayPlusMonths :: Int -> Effect Date
 unsafeTodayPlusMonths months =
   Date.today <#>
     ( \today ->
-        wrappedDate (today { month = mod (today.month + months) 12 })
+        wrappedDate (today { month = 1 + mod (today.month + months - 1) 12 })
     )
 
 unsafeToday :: Effect Date
