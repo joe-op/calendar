@@ -4,7 +4,7 @@
   "description": "View-only calendar",
   "main": "index.js",
   "directories": {
-    "test": "test"
+    "test": "src/test"
   },
   "scripts": {
     "build": "node_modules/.bin/spago build --purs-args=\"--strict --stash --censor-lib\"",
@@ -34,6 +34,6 @@
     "purescript": "0.15.15",
     "purescript-psa": "^0.8.2",
     "purs-tidy": "^0.10.0",
-    "spago": "0.21.0"
+    "spago": "^0.93.41"
   }
 }

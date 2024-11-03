@@ -1,0 +1,20 @@
+package:
+  dependencies:
+    - aff
+    - arrays
+    - console
+    - const
+    - control
+    - debug
+    - effect
+    - halogen
+    - maybe
+    - newtype
+    - prelude
+    - quickcheck
+    - tuples
+  name: my-project
+workspace:
+  extraPackages: {}
+  packageSet:
+    registry: 41.2.0
