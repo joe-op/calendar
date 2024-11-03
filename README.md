@@ -11,7 +11,20 @@ Written in [PureScript](https://github.com/purescript/purescript).
 npm install
 ```
 
+### Install watchexec
+
+Download from [the repository](https://github.com/watchexec/watchexec).
+
+Add binary to path:
+
+```bash
+mv watchexec ~/.local/bin/
+mkdir -p ~/.local/bin/man/man1
+mv watchexec.1 ~/.local/bin/man/man1/
+```
+
 ## Run dev server
+
 
 ### Collect static files
 

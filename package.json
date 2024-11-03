@@ -7,8 +7,8 @@
     "test": "src/test"
   },
   "scripts": {
-    "build": "node_modules/.bin/spago build --purs-args=\"--strict --stash --censor-lib\"",
-    "build:dev": "node_modules/.bin/spago build --purs-args=\"--stash --censor-lib\" -w",
+    "build": "node_modules/.bin/spago build",
+    "build:dev": "watchexec -e purs node_modules/.bin/spago build",
     "esbuild": "esbuild --bundle index.js",
     "serve": "npm run esbuild -- --bundle --servedir=dist --outdir=dist/js",
     "test": "spago test"
