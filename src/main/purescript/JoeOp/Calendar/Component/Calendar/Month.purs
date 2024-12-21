@@ -123,7 +123,13 @@ component =
   -- TODO: day of week labels
   handleAction :: Action -> HalogenM m Unit
   handleAction = case _ of
-    Receive input -> unlessM (eq input <$> H.gets _.input) (H.modify_ _ { input = input })
+    Receive input -> unlessM
+      (eq input <$> H.gets _.input)
+      ( H.modify_ _
+          { input = input
+          , weekRows = setUpDays input.year input.month
+          }
+      )
 
   -- TODO: offset for week
   -- TODO: change to Maybe Int and render an empty square for nothing
