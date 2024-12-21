@@ -7,12 +7,14 @@ module JoeOp.Calendar.Component.Calendar
 
 import Prelude
 import Data.Const (Const)
-import Data.Tuple (Tuple(..))
+import Data.Tuple (Tuple(..), fst, snd)
 import Effect.Aff.Class (class MonadAff)
 import Halogen as H
 import Halogen.HTML as HH
-import JoeOp.Calendar.Component.Calendar.Month as Month
-import JoeOp.Calendar.Types (Month, Year)
+import JoeOp.Calendar (Month, Year)
+import JoeOp.Calendar.Component.Calendar.Controls as Controls
+import JoeOp.Calendar.Component.Calendar.Month (Slot, component) as Month
+import JoeOp.Calendar.Data.Date as Data.Date
 import Type.Proxy (Proxy(..))
 
 type Input = Tuple Year Month
@@ -25,7 +27,8 @@ type Query = Const Void
 type Slot = H.Slot Query Output
 
 type ChildSlots =
-  ( month :: Month.Slot Unit
+  ( controls :: Controls.Slot Unit
+  , month :: Month.Slot Unit
   )
 
 type State =
@@ -35,14 +38,19 @@ type State =
       }
   }
 
-data Action = Init
+data Action
+  = Init
+  | HandleControls Controls.Output
 
 type HalogenM m = H.HalogenM State Action ChildSlots Output m
 
 type HTML m = H.ComponentHTML Action ChildSlots m
 
+_controls = Proxy :: Proxy "controls"
 _month = Proxy :: Proxy "month"
 
+--| Calendar component
+--| may want to split into "Calendar" and "Calendar plus controls"
 component ::
   forall m.
   MonadAff m =>
@@ -71,8 +79,25 @@ component =
           unit
           Month.component
           state.selectedMonth
+      , HH.slot
+          _controls
+          unit
+          Controls.component
+          unit
+          HandleControls
       ]
 
   handleAction :: Action -> HalogenM m Unit
   handleAction = case _ of
     Init -> pure unit
+    HandleControls controlsOutput -> case controlsOutput of
+      Controls.PreviousMonth -> addMonths (-1)
+      Controls.NextMonth -> addMonths 1
+    where
+    addMonths :: Int -> HalogenM m Unit
+    addMonths n = do
+      { month, year } <- H.gets _.selectedMonth
+      let
+        newYearMonth = Data.Date.addMonths year month n
+      H.modify_ \s -> s { selectedMonth = { month: snd newYearMonth, year: fst newYearMonth } }
+

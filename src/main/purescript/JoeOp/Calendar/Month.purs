@@ -1,14 +1,78 @@
-module JoeOp.Calendar.Data.Month
-  ( fromCardinalInt
+module JoeOp.Calendar.Month
+  ( Month(..)
+  , addMod
+  , fromCardinalInt
   , numberOfDays
   , toCardinalInt
+  , toIndex
   , toString
   ) where
 
 import Prelude
+import Data.Generic.Rep (class Generic)
 import Data.Maybe (Maybe(..))
 import Data.Newtype (unwrap)
-import JoeOp.Calendar.Types (Month(..), Year)
+import Data.Show.Generic (genericShow)
+import JoeOp.Calendar.Year (Year)
+
+data Month
+  = January
+  | February
+  | March
+  | April
+  | May
+  | June
+  | July
+  | August
+  | September
+  | October
+  | November
+  | December
+
+derive instance eqMonth :: Eq Month
+
+derive instance genericMonth :: Generic Month _
+
+instance showMonth :: Show Month where
+  show = genericShow
+
+addMod :: Int -> Month -> Month
+addMod n month = fromIntMod (n + (toInt month))
+
+toIndex :: Month -> Int
+toIndex = toInt
+
+--| 0-indexed toInt
+toInt :: Month -> Int
+toInt = case _ of
+  January -> 0
+  February -> 1
+  March -> 2
+  April -> 3
+  May -> 4
+  June -> 5
+  July -> 6
+  August -> 7
+  September -> 8
+  October -> 9
+  November -> 10
+  December -> 11
+
+fromIntMod :: Int -> Month
+fromIntMod n = case n of
+  0 -> January
+  1 -> February
+  2 -> March
+  3 -> April
+  4 -> May
+  5 -> June
+  6 -> July
+  7 -> August
+  8 -> September
+  9 -> October
+  10 -> November
+  11 -> December
+  _ -> fromIntMod (mod n 12)
 
 fromCardinalInt :: Int -> Maybe Month
 fromCardinalInt = case _ of
