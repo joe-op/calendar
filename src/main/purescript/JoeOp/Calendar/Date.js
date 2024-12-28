@@ -1,4 +1,4 @@
-const luxon = require('luxon');
+import { DateTime } from 'luxon';
 
 const padNumber = (num,len) => {
   let numStr = num.toString();
@@ -9,7 +9,7 @@ const padNumber = (num,len) => {
 };
 
 export const _monthStartsOnWeekDay = year => month => {
-  let dt = luxon.DateTime.fromISO(`${year.toString()}-${padNumber(month, 2)}-01`);
+  let dt = DateTime.fromISO(`${year.toString()}-${padNumber(month, 2)}-01`);
   let luxonWeekday = dt.weekday;
   // -1 to convert 1-indexed to 0-indexed
   // +1 to make Sunday the first day of the week
@@ -19,7 +19,7 @@ export const _monthStartsOnWeekDay = year => month => {
 
 export const _today = toUnwrappedDate => {
   return () => {
-    const today = luxon.DateTime.local();
+    const today = DateTime.local();
     return toUnwrappedDate(today.year)(today.month)(today.day);
   };
 };

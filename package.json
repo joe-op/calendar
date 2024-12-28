@@ -11,7 +11,7 @@
     "build:dev": "watchexec -e purs node_modules/.bin/spago build",
     "esbuild": "esbuild --bundle index.js",
     "serve": "npm run esbuild -- --bundle --servedir=dist --outdir=dist/js",
-    "test": "spago test"
+    "test": "node_modules/.bin/spago test"
   },
   "repository": {
     "type": "git",

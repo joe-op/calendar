@@ -14,6 +14,10 @@ package:
     - quickcheck
     - tuples
   name: joe-op-calendar
+  description: Display the days of the month for a given month and year
+  bundle:
+    platform: browser
+    type: app
 workspace:
   extraPackages: {}
   packageSet:
