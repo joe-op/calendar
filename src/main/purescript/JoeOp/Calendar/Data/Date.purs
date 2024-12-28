@@ -4,8 +4,8 @@ import Prelude
 import Data.Int.Extended as Int
 import Data.Maybe (fromMaybe)
 import Data.Newtype (over)
-import Data.Tuple.Nested (tuple3)
 import Data.Tuple (Tuple(..))
+import Data.Tuple.Nested (tuple3)
 import Effect (Effect)
 import JoeOp.Calendar (Date, Day(..), Month(..), UnwrappedDate, Year(..))
 import JoeOp.Calendar.Date as Date

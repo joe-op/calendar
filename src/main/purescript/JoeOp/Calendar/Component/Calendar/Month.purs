@@ -30,7 +30,6 @@ type Input =
   , year :: Year
   }
 
--- TODO: determine setup based on month and year
 type Output = Void
 
 type Query :: forall k. k -> Type
@@ -121,7 +120,6 @@ component =
             EmptyDay -> Day.emptyDay
         ]
 
-  -- TODO: day of week labels
   handleAction :: Action -> HalogenM m Unit
   handleAction = case _ of
     Receive input -> unlessM
@@ -132,9 +130,6 @@ component =
           }
       )
 
-  -- TODO: offset for week
-  -- TODO: change to Maybe Int and render an empty square for nothing
-  -- TODO: pad last week
   setUpDays :: Year -> Month -> Array WeekRow
   setUpDays year month =
     let

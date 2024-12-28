@@ -73,8 +73,7 @@ component =
   render :: State -> HTML m
   render state =
     HH.div_
-      [ HH.h1_ [ HH.text "Calendar" ]
-      , HH.slot_
+      [ HH.slot_
           _month
           unit
           Month.component
