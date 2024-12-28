@@ -14,7 +14,6 @@
   width: 4rem;
   min-width: 4rem;
 
-  // TODO: top & bottom borders
   &:first-child {
     border-left: 2px solid black;
   }
@@ -36,6 +35,17 @@
 
   &__day {
     .weekdaymixin();
+
+    &--spacer {
+      border: none;
+
+      &:first-child {
+	border: none;
+      }
+      &:last-child {
+	border: none;
+      }
+    }
   }
 
   &__week {

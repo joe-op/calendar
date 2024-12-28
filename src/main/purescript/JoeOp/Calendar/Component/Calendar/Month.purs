@@ -6,8 +6,8 @@ module JoeOp.Calendar.Component.Calendar.Month
   ) where
 
 import Prelude
+import Data.Array ((:), (..))
 import Data.Array as Array
-import Data.Array ((..))
 import Data.Const (Const)
 import Data.Maybe (Maybe(..), fromMaybe, maybe)
 import Data.Newtype (unwrap)
@@ -88,9 +88,11 @@ component =
           -- TODO: CSS framework
           [ HP.classes [ HH.ClassName "month-container" ]
           ]
-          ( append
-              [ weekDayLabels ]
-              (map weekHtml state.weekRows)
+          ( Array.concat
+              [ [ weekDayLabels ]
+              , map weekHtml state.weekRows
+              , spacingWeekRows (Array.length state.weekRows)
+              ]
           )
       ]
     where
@@ -110,15 +112,53 @@ component =
         ]
 
     dayHtml :: WeekRowDay -> HTML m
-    dayHtml day =
+    dayHtml = dayHtml' []
+
+    dayHtml' :: Array String -> WeekRowDay -> HTML m
+    dayHtml' modifiers day =
       HH.div
         -- TODO: CSS framework
-        [ HP.classes [ HH.ClassName "month-container", HH.ClassName "month-container__day" ]
+        [ HP.classes
+            ( map HH.ClassName
+                ( Array.concat
+                    [ [ "month-container"
+                      , "month-container__day"
+                      ]
+                    , (map ((<>) "month-container__day--") modifiers)
+                    ]
+                )
+            )
         ]
         [ case day of
             DayOfWeek d -> HH.slot_ _day (unwrap d) Day.component d
             EmptyDay -> Day.emptyDay
         ]
+
+    --| Always take up 6 rows of space so that controls don't jump around.
+    --| Putting the controls at the top would also fix this of course,
+    --| but it's nicer to have them on the bottom on a mobile screen.
+    spacingWeekRows :: Int -> Array (HTML m)
+    spacingWeekRows = spacingRows []
+      where
+      spacingRows :: Array (HTML m) -> Int -> Array (HTML m)
+      spacingRows result len =
+        if len >= 6 then
+          result
+        else
+          spacingRows
+            (spacingRow : result)
+            (len + 1)
+
+      spacingRow :: HTML m
+      spacingRow =
+        HH.div
+          [ HP.classes
+              [ HH.ClassName "month-container"
+              , HH.ClassName "month-container__week"
+              , HH.ClassName "month-container__week--spacer"
+              ]
+          ]
+          (Array.replicate 7 (dayHtml' [ "spacer" ] EmptyDay))
 
   handleAction :: Action -> HalogenM m Unit
   handleAction = case _ of
