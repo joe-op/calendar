@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+npx gulp && \
+  npm run esbuild && \
+  rm -rf .build/calendar && \
+  mkdir -p .build/calendar && \
+  rsync -a dist/ .build/calendar/
+  tar -C .build -czf calendar.tgz calendar

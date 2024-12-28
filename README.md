@@ -41,3 +41,11 @@ npm run build:dev
 ```bash
 npm run serve
 ```
+
+### Package
+
+Bundles files in calendar.tgz
+
+```bash
+bin/distribute
+```

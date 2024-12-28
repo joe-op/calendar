@@ -1,3 +1,4 @@
+.build/
 .psa-stash
 .psci_modules
 .spago/
@@ -7,6 +8,7 @@ output
 images/sandbox
 src/main/assets/styles/precompiled/*.css
 *.*~
+*.tgz
 *.zip
 \#*\#
 .\#*
