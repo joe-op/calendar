@@ -1,7 +1,7 @@
 # Calendar
 
-A simple calendar that shows the days of the month and
-dates of the week.
+A simple calendar that shows the days of the month for a
+given month and year.
 
 Written in [PureScript](https://github.com/purescript/purescript).
 
@@ -18,13 +18,11 @@ Download from [the repository](https://github.com/watchexec/watchexec).
 Add binary to path:
 
 ```bash
-mv watchexec ~/.local/bin/
-mkdir -p ~/.local/bin/man/man1
-mv watchexec.1 ~/.local/bin/man/man1/
+cp watchexec /usr/local/bin/
+# see `man man`
+# this could also be /usr/share
+cp watchexec.1 /usr/local/share/man/man1/
 ```
-
-## Run dev server
-
 
 ### Collect static files
 
