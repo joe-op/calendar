@@ -9,7 +9,7 @@
   "scripts": {
     "build": "node_modules/.bin/spago build",
     "build:dev": "watchexec -e purs node_modules/.bin/spago build",
-    "esbuild": "esbuild --bundle index.js",
+    "esbuild": "esbuild --bundle index.js --outdir=dist/js",
     "serve": "npm run esbuild -- --bundle --servedir=dist --outdir=dist/js",
     "test": "node_modules/.bin/spago test"
   },

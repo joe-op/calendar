@@ -12,6 +12,7 @@
 
   height: 4rem;
   width: 4rem;
+  min-width: 4rem;
 
   // TODO: top & bottom borders
   &:first-child {
@@ -20,7 +21,12 @@
 
   &:last-child {
     border-right: 2px solid black;
- }
+  }
+
+  @media screen and (max-width: 768px) {
+    width: 3.5rem;
+    min-width: 3.5rem;
+  }
 }
 
 .month-container {
@@ -44,6 +50,18 @@
     color: darkred;
     text-align: center;
     font-style: italic;
+
+    &--mobile {
+      display: none;
+    }
+
+    @media screen and (max-width: 768px) {
+      display: none;
+
+      &--mobile {
+	display: block;
+      }
+    }
   }
 
   &__weekday-labels {

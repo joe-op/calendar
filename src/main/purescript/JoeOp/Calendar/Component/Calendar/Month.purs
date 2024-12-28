@@ -11,6 +11,7 @@ import Data.Array ((..))
 import Data.Const (Const)
 import Data.Maybe (Maybe(..), fromMaybe, maybe)
 import Data.Newtype (unwrap)
+import Data.Tuple (Tuple(..))
 import Effect.Aff.Class (class MonadAff)
 import Halogen as H
 import Halogen.HTML as HH
@@ -219,21 +220,29 @@ component =
       [ HP.classes [ HH.ClassName "month-container", HH.ClassName "month-container__weekday-labels" ]
       ]
       ( map
-          ( \d -> HH.div
-              [ HP.classes [ HH.ClassName "month-container", HH.ClassName "month-container__weekday-label" ]
-              ]
-              [ HH.text d
-              ]
+          ( \(Tuple d dabbrev) ->
+              HH.div_
+                [ HH.span
+                    [ HP.classes [ HH.ClassName "month-container", HH.ClassName "month-container__weekday-label" ]
+                    ]
+                    [ HH.text d
+                    ]
+                , HH.span
+                    [ HP.classes [ HH.ClassName "month-container", HH.ClassName "month-container__weekday-label", HH.ClassName "month-container__weekday-label--mobile" ]
+                    ]
+                    [ HH.text dabbrev
+                    ]
+                ]
           )
           weekDays
       )
 
   weekDays =
-    [ "Sunday"
-    , "Monday"
-    , "Tuesday"
-    , "Wednesday"
-    , "Thursday"
-    , "Friday"
-    , "Saturday"
+    [ Tuple "Sunday" "Sun"
+    , Tuple "Monday" "Mon"
+    , Tuple "Tuesday" "Tue"
+    , Tuple "Wednesday" "Wed"
+    , Tuple "Thursday" "Thur"
+    , Tuple "Friday" "Fri"
+    , Tuple "Saturday" "Sat"
     ]
