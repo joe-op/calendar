@@ -29,6 +29,8 @@
   "devDependencies": {
     "delete": "^1.1.0",
     "esbuild": "0.20.2",
+    "eslint": "^9.17.0",
+    "globals": "^15.14.0",
     "gulp": "^4.0.2",
     "gulp-less": "^5.0.0",
     "purescript": "0.15.15",

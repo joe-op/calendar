@@ -56,7 +56,8 @@ function clean() {
   return del(['dist/**'], { force: true });
 }
 
-exports.clean = clean
-exports.css = css
-exports.html = html
-exports.default = watch
+exports.clean = clean;
+exports.css = css;
+exports.html = html;
+exports.static = gulp.parallel(css, html, images);
+exports.default = watch;
