@@ -43,15 +43,6 @@ function images() {
     .pipe(gulp.dest(paths.img.dest));
 }
 
-function watchLess() {
-  return gulp.watch(paths.css.src, gulp.parallel(css));
-}
-
-function watch() {
-  return   gulp.parallel(html(),  images())
-    .then(watchLess());
-}
-
 function clean() {
   return del(['dist/**'], { force: true });
 }
@@ -60,4 +51,4 @@ exports.clean = clean;
 exports.css = css;
 exports.html = html;
 exports.static = gulp.parallel(css, html, images);
-exports.default = watch;
+exports.default = gulp.series(clean, exports.static);
