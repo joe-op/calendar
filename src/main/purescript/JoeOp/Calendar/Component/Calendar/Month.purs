@@ -200,9 +200,6 @@ component =
         wkrs ->
           if highestDayAchieved wkrs >= numberOfDays then
             wkrs
-          else if Array.length wkrs >= 5 then
-            -- TODO: fix
-            wkrs
           else
             buildWeeks (Array.snoc wkrs (nextWeek $ highestDayAchieved wkrs))
 
