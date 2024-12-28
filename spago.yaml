@@ -15,6 +15,38 @@ package:
     - tuples
   name: joe-op-calendar
 workspace:
-  extraPackages: {}
+  extraPackages: 
+    quickcheck:
+      git: https://github.com/joe-op/purescript-quickcheck.git
+      ref: 54a73c531e29fac3f9fc325f2a834f2c4158ad7f
+      dependencies:
+        - arrays
+        - assert
+        - console
+        - control
+        - effect
+        - either
+        - enums
+        - exceptions
+        - foldable-traversable
+        - gen
+        - identity
+        - integers
+        - lazy
+        - lcg
+        - lists
+        - maybe
+        - newtype
+        - nonempty
+        - numbers
+        - partial
+        - prelude
+        - record
+        - st
+        - strings
+        - tailrec
+        - transformers
+        - tuples
+        - unfoldable
   packageSet:
     registry: 41.2.0
