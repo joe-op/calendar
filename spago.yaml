@@ -13,7 +13,7 @@ package:
     - prelude
     - quickcheck
     - tuples
-  name: my-project
+  name: joe-op-calendar
 workspace:
   extraPackages: {}
   packageSet:
