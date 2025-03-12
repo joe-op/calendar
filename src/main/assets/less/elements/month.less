@@ -26,6 +26,12 @@
     width: 3.5rem;
     min-width: 3.5rem;
   }
+
+  @media print {
+    min-width: unset;
+    width: 12vw;
+    height: 12vw;
+  }
 }
 
 .month-container {
@@ -71,6 +77,10 @@
       &--mobile {
 	display: block;
       }
+    }
+
+    @media print {
+      height: 3vw;
     }
   }
 
