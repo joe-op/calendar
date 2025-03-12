@@ -253,14 +253,16 @@ component =
       ]
       ( map
           ( \(Tuple d dabbrev) ->
-              HH.div_
+              HH.div
+                [ HP.classes [ HH.ClassName "month-container", HH.ClassName "month-container__weekday-label" ]
+                ]
                 [ HH.span
-                    [ HP.classes [ HH.ClassName "month-container", HH.ClassName "month-container__weekday-label" ]
+                    [ HP.classes [ HH.ClassName "month-container", HH.ClassName "month-container__weekday-label-text" ]
                     ]
                     [ HH.text d
                     ]
                 , HH.span
-                    [ HP.classes [ HH.ClassName "month-container", HH.ClassName "month-container__weekday-label", HH.ClassName "month-container__weekday-label--mobile" ]
+                    [ HP.classes [ HH.ClassName "month-container", HH.ClassName "month-container__weekday-label-text", HH.ClassName "month-container__weekday-label-text--mobile" ]
                     ]
                     [ HH.text dabbrev
                     ]

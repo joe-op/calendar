@@ -16,10 +16,18 @@
 
   &:first-child {
     border-left: 2px solid black;
+
+    @media print {
+      border-left-width: 3px;
+    }
   }
 
   &:last-child {
     border-right: 2px solid black;
+
+    @media print {
+      border-right-width: 3px;
+    }
   }
 
   @media screen and (max-width: 768px) {
@@ -31,6 +39,12 @@
     min-width: unset;
     width: 12vw;
     height: 12vw;
+
+    -webkit-print-color-adjust: exact; /* For Chrome/Safari compatibility */
+    print-color-adjust: exact; /* Standard property for Firefox */
+    color-adjust: exact; /* Older fallback */
+
+    border-width: 2px;
   }
 }
 
@@ -62,6 +76,13 @@
     .weekdaymixin();
 
     height: 1rem;
+
+    @media print {
+      height: 3vw;
+    }
+  }
+
+  &__weekday-label-text {
     font-size: 0.8rem;
     color: darkred;
     text-align: center;
@@ -77,10 +98,6 @@
       &--mobile {
 	display: block;
       }
-    }
-
-    @media print {
-      height: 3vw;
     }
   }
 
