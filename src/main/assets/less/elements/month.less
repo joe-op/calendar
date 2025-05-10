@@ -1,3 +1,8 @@
+@border-width-default: 1px;
+@border-exterior-addition: 1px;
+@border-print-addition: 1px;
+
+
 .weekmixin() {
   display: flex;
   flex: 1 1 auto;
@@ -7,28 +12,12 @@
 
 .weekdaymixin() {
   box-sizing: border-box;
-  border: 1px solid black;
+  border: @border-width-default solid black;
   flex: 0 0 auto;
 
   height: 4rem;
   width: 4rem;
   min-width: 4rem;
-
-  &:first-child {
-    border-left: 2px solid black;
-
-    @media print {
-      border-left-width: 3px;
-    }
-  }
-
-  &:last-child {
-    border-right: 2px solid black;
-
-    @media print {
-      border-right-width: 3px;
-    }
-  }
 
   @media screen and (max-width: 768px) {
     width: 3.5rem;
@@ -44,7 +33,24 @@
     print-color-adjust: exact; /* Standard property for Firefox */
     color-adjust: exact; /* Older fallback */
 
-    border-width: 2px;
+    border-width: @border-width-default + @border-print-addition;
+  }
+
+
+  &:first-child {
+    border-left-width: @border-width-default + @border-exterior-addition;
+
+    @media print {
+      border-left-width: @border-width-default + @border-exterior-addition + @border-print-addition;
+    }
+  }
+
+  &:last-child {
+    border-right-width: @border-width-default + @border-exterior-addition;
+
+    @media print {
+      border-right-width: @border-width-default + @border-exterior-addition + @border-print-addition;
+    }
   }
 }
 
@@ -70,6 +76,17 @@
 
   &__week {
     .weekmixin();
+
+    width: fit-content;
+
+    &:last-child {
+      border-bottom: @border-exterior-addition solid black;
+    }
+
+    &--spacer, &--spacer:last-child {
+      border-bottom: none;
+      border-top: @border-exterior-addition solid black;
+    }
   }
 
   &__weekday-label {
@@ -88,6 +105,10 @@
     text-align: center;
     font-style: italic;
 
+    @media print {
+      font-size: 1rem;
+    }
+
     &--mobile {
       display: none;
     }
@@ -103,5 +124,13 @@
 
   &__weekday-labels {
     .weekmixin();
+
+    width: fit-content;
+
+    border-top: @border-exterior-addition solid black;
+
+    &print {
+      border-top-width: @border-exterior-addition + @border-print-addition;
+    }
   }
 }

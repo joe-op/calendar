@@ -3,8 +3,13 @@
 
   &__number {
     color: darkgreen;
+    font-size: 1rem;
     position: absolute;
     top: 2px;
     right: 2px;
+
+    @media print {
+      font-size: 1.3rem;
+    }
   }
 }
