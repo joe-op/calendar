@@ -24,15 +24,15 @@
   },
   "homepage": "https://github.com/joe-op/calendar#readme",
   "dependencies": {
-    "luxon": "^3.4.4"
+    "luxon": "~3.4.4"
   },
   "devDependencies": {
-    "delete": "^1.1.0",
-    "esbuild": "0.20.2",
-    "eslint": "^9.17.0",
-    "globals": "^15.14.0",
-    "gulp": "^4.0.2",
-    "gulp-less": "^5.0.0",
+    "delete": "1.1.0",
+    "esbuild": "~0.25.4",
+    "eslint": "9.17.0",
+    "globals": "15.14.0",
+    "gulp": "~5.0.0",
+    "gulp-less": "~5.0.0",
     "purescript": "0.15.15",
     "purescript-psa": "^0.8.2",
     "purs-tidy": "^0.10.0",

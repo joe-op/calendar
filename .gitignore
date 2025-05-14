@@ -8,6 +8,7 @@ output
 images/sandbox
 src/main/assets/styles/precompiled/*.css
 *.*~
+*.tar.gz
 *.tgz
 *.zip
 \#*\#
