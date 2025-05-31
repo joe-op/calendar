@@ -85,6 +85,7 @@
 
     &--spacer, &--spacer:last-child {
       border-bottom: none;
+      // overridden below for subsequent spacers
       border-top: @border-exterior-addition solid black;
     }
   }
@@ -133,4 +134,8 @@
       border-top-width: @border-exterior-addition + @border-print-addition;
     }
   }
+}
+
+.month-container__week--spacer ~ .month-container__week--spacer {
+  border-top: none;   
 }
