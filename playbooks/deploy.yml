@@ -1,0 +1,9 @@
+- name: Deploy calendar bundle
+  hosts: all
+  become: yes
+  become_method: sudo
+  tasks:
+    - ansible.builtin.unarchive:
+        src: "{{ source_directory }}/calendar.tar.gz"
+        dest: "{{ destination_directory }}"
+        copy: true

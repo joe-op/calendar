@@ -2,6 +2,7 @@
 .psa-stash
 .psci_modules
 .spago/
+local/
 node_modules
 dist
 output

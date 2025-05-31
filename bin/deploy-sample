@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -euo pipefail
+
+ansible-playbook \
+  -i local/inventory/$ANSIBLE_INVENTORY_FILE \
+  -e ansible_user=$ANSIBLE_USER \
+  -e source_directory=$DIST_DIR \
+  -e destination_directory= $REMOTE_DEST \
+  --ask-become-pass \
+  playbooks/deploy.yml

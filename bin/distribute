@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 
+calendar_tar_gz=calendar.tar.gz
+
 npx gulp && \
   npm run esbuild && \
   rm -rf .build/calendar && \
   mkdir -p .build/calendar && \
-  rsync -a dist/ .build/calendar/
-  tar -C .build -czf calendar.tgz calendar
+  rsync -a dist/ .build/calendar/ && \
+  tar -C .build -czf "$calendar_tar_gz" calendar && \
+  echo "Bundled in $calendar_tar_gz"
