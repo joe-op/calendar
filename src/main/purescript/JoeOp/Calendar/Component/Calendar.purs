@@ -9,12 +9,18 @@ import Prelude
 import Data.Const (Const)
 import Data.Tuple (Tuple(..), fst, snd)
 import Effect.Aff.Class (class MonadAff)
+import Effect.Console as Console
 import Halogen as H
 import Halogen.HTML as HH
+import Halogen.HTML.Events as HH.Events
+import Halogen.HTML.Properties as HP
 import JoeOp.Calendar (Month, Year)
 import JoeOp.Calendar.Component.Calendar.Controls as Controls
 import JoeOp.Calendar.Component.Calendar.Month (Slot, component) as Month
 import JoeOp.Calendar.Data.Date as Data.Date
+import Web.Event.Event as Event
+import Web.UIEvent.KeyboardEvent (KeyboardEvent)
+import Web.UIEvent.KeyboardEvent as KeyboardEvent
 import Type.Proxy (Proxy(..))
 
 type Input = Tuple Year Month
@@ -41,6 +47,7 @@ type State =
 data Action
   = Init
   | HandleControls Controls.Output
+  | HandleKey KeyboardEvent
 
 type HalogenM m = H.HalogenM State Action ChildSlots Output m
 
@@ -72,7 +79,11 @@ component =
 
   render :: State -> HTML m
   render state =
-    HH.div_
+    HH.div
+      [ HH.Events.onKeyUp HandleKey
+      , HP.classes [ HH.ClassName "calendar" ]
+      , HP.tabIndex (-1)
+      ]
       [ HH.slot_
           _month
           unit
@@ -92,6 +103,14 @@ component =
     HandleControls controlsOutput -> case controlsOutput of
       Controls.PreviousMonth -> addMonths (-1)
       Controls.NextMonth -> addMonths 1
+    HandleKey ke -> do
+      H.liftEffect $ Console.info ("Handling key " <> KeyboardEvent.key ke)
+      if isLeftKey ke then
+        preventKeyEventDefault ke *> addMonths (-1)
+      else if isRightKey ke then
+        preventKeyEventDefault ke *> addMonths 1
+      else
+        pure unit
     where
     addMonths :: Int -> HalogenM m Unit
     addMonths n = do
@@ -99,4 +118,13 @@ component =
       let
         newYearMonth = Data.Date.addMonths year month n
       H.modify_ \s -> s { selectedMonth = { month: snd newYearMonth, year: fst newYearMonth } }
+
+  preventKeyEventDefault :: KeyboardEvent -> HalogenM m Unit
+  preventKeyEventDefault = KeyboardEvent.toEvent >>> Event.preventDefault >>> H.liftEffect
+
+  isLeftKey :: KeyboardEvent -> Boolean
+  isLeftKey ke = KeyboardEvent.key ke == "ArrowLeft"
+
+  isRightKey :: KeyboardEvent -> Boolean
+  isRightKey ke = KeyboardEvent.key ke == "ArrowRight"
 
