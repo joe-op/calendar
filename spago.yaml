@@ -7,12 +7,14 @@ package:
     - control
     - debug
     - effect
+    - filterable
     - halogen
     - maybe
     - newtype
     - prelude
     - quickcheck
     - tuples
+    - uuid
   name: joe-op-calendar
   description: Display the days of the month for a given month and year
   bundle:

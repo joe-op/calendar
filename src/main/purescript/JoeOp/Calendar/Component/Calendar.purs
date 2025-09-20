@@ -1,14 +1,17 @@
 module JoeOp.Calendar.Component.Calendar
-  ( Output
-  , Query
+  ( Output(..)
+  , Query(..)
   , Slot
   , component
   ) where
 
 import Prelude
-import Data.Const (Const)
+import Data.Compactable (compact)
+import Data.Maybe (Maybe(..))
 import Data.Tuple (Tuple(..), fst, snd)
+import Data.UUID as UUID
 import Effect.Aff.Class (class MonadAff)
+import Effect (Effect)
 import Effect.Console as Console
 import Halogen as H
 import Halogen.HTML as HH
@@ -23,12 +26,14 @@ import Web.UIEvent.KeyboardEvent (KeyboardEvent)
 import Web.UIEvent.KeyboardEvent as KeyboardEvent
 import Type.Proxy (Proxy(..))
 
+foreign import focusId :: String -> Effect Unit
+
 type Input = Tuple Year Month
 
-type Output = Void
+data Output = Initialized
 
-type Query :: forall k. k -> Type
-type Query = Const Void
+data Query a =
+  Focus a
 
 type Slot = H.Slot Query Output
 
@@ -38,7 +43,8 @@ type ChildSlots =
   )
 
 type State =
-  { selectedMonth ::
+  { id :: Maybe String
+  , selectedMonth ::
       { month :: Month
       , year :: Year
       }
@@ -70,20 +76,30 @@ component =
         H.mkEval
           $ H.defaultEval
               { handleAction = handleAction
+              , handleQuery = handleQuery
+              , initialize = Just Init
               }
     }
   where
   initialState (Tuple year month) =
-    { selectedMonth: { year, month }
+    { id: Nothing
+    , selectedMonth: { year, month }
     }
 
   render :: State -> HTML m
   render state =
     HH.div
-      [ HH.Events.onKeyUp HandleKey
-      , HP.classes [ HH.ClassName "calendar" ]
-      , HP.tabIndex (-1)
-      ]
+      ( [ HH.Events.onKeyUp HandleKey
+        , HP.classes [ HH.ClassName "calendar" ]
+
+        , HP.tabIndex (-1)
+        ]
+          <>
+            ( compact
+                [ map HP.id state.id
+                ]
+            )
+      )
       [ HH.slot_
           _month
           unit
@@ -99,7 +115,10 @@ component =
 
   handleAction :: Action -> HalogenM m Unit
   handleAction = case _ of
-    Init -> pure unit
+    Init -> do
+      uuid <- H.liftEffect UUID.genUUID
+      H.modify_ _ { id = Just ("calendar-" <> UUID.toString uuid) }
+      H.raise Initialized
     HandleControls controlsOutput -> case controlsOutput of
       Controls.PreviousMonth -> addMonths (-1)
       Controls.NextMonth -> addMonths 1
@@ -118,6 +137,15 @@ component =
       let
         newYearMonth = Data.Date.addMonths year month n
       H.modify_ \s -> s { selectedMonth = { month: snd newYearMonth, year: fst newYearMonth } }
+
+  handleQuery :: forall a. Query a -> HalogenM m (Maybe a)
+  handleQuery = case _ of
+    Focus a -> do
+      id <- H.gets _.id
+      case id of
+        Just id' -> H.liftEffect $ focusId id'
+        Nothing -> H.liftEffect $ Console.warn "Wanted to focus calendar, but no id is set."
+      pure (Just a)
 
   preventKeyEventDefault :: KeyboardEvent -> HalogenM m Unit
   preventKeyEventDefault = KeyboardEvent.toEvent >>> Event.preventDefault >>> H.liftEffect

@@ -25,7 +25,11 @@ type ChildSlots =
   ( calendar :: Calendar.Slot String
   )
 
-_month = Proxy :: Proxy "month"
+data Action = HandleCalendarOutput { focus :: Boolean, slotLabel :: String, output :: Calendar.Output }
+
+type HalogenM m = H.HalogenM Unit Action ChildSlots Output m
+
+_calendar = Proxy :: Proxy "calendar"
 
 component ::
   forall m.
@@ -36,7 +40,10 @@ component dates =
   H.mkComponent
     { initialState: identity
     , render
-    , eval: H.mkEval H.defaultEval
+    , eval: H.mkEval $
+        H.defaultEval
+          { handleAction = handleAction
+          }
     }
   where
   render _ =
@@ -45,14 +52,27 @@ component dates =
           ( \date ->
               HH.div
                 [ HP.classes [ HH.ClassName "cal-month-section" ] ]
-                [ HH.slot_
-                    _month
-                    "1"
+                [ HH.slot
+                    _calendar
+                    mainCalendarLabel
                     Calendar.component
                     ( Tuple
                         (Tuple.Nested.get1 date)
                         (Tuple.Nested.get2 date)
                     )
+                    ( \output ->
+                        HandleCalendarOutput { focus: true, slotLabel: mainCalendarLabel, output }
+                    )
                 ]
           )
       )
+  mainCalendarLabel = "1"
+
+  handleAction :: Action -> HalogenM m Unit
+  handleAction = case _ of
+    HandleCalendarOutput { focus, slotLabel, output } -> case output of
+      Calendar.Initialized ->
+        if focus then
+          H.tell _calendar slotLabel Calendar.Focus
+        else
+          pure unit

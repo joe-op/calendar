@@ -7,7 +7,7 @@
     "test": "src/test"
   },
   "scripts": {
-    "build": "node_modules/.bin/spago build",
+    "build": "bin/build-dev",
     "build:dev": "watchexec -w src -e purs,less,html bin/build-dev",
     "esbuild": "esbuild --bundle index.js --outdir=dist/js",
     "serve": "npm run esbuild -- --bundle --servedir=dist --outdir=dist/js",
@@ -24,7 +24,8 @@
   },
   "homepage": "https://github.com/joe-op/calendar#readme",
   "dependencies": {
-    "luxon": "~3.4.4"
+    "luxon": "~3.4.4",
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
     "delete": "1.1.0",
@@ -33,6 +34,7 @@
     "globals": "15.14.0",
     "gulp": "~5.0.0",
     "gulp-less": "~5.0.0",
+    "prettier": "^3.6.2",
     "purescript": "0.15.15",
     "purescript-psa": "^0.8.2",
     "purs-tidy": "^0.10.0",
